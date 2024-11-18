@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="header_background">#FF4081</color>
+    <color name="header_text">#FFFFFF</color>
+    <color name="row_background">#F5F5F5</color>
+    <color name="row_background_alt1">#E0E0E0</color>
+    <color name="row_background_alt2">#F0F0F0</color>
+    <color name="data_text">#333333</color>
+</resources>
