@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.personaltrainer.R
 import com.example.personaltrainer.TableDynamic
+import com.example.personaltrainer.controller.template.ProcessDelete
+import com.example.personaltrainer.controller.template.ProcessDeleteEjercicios
 import com.example.personaltrainer.model.ejercicio.EjercicioModelBD
 
 class EjerciciosListaController : AppCompatActivity(), View.OnClickListener {
@@ -21,6 +23,7 @@ class EjerciciosListaController : AppCompatActivity(), View.OnClickListener {
     private lateinit var ejercicioModelBD: EjercicioModelBD
     private val header = arrayOf("ID", "Nombre", "Instrucciones", "Link Video")
     private val rows: ArrayList<Array<String>> = ArrayList()
+    private lateinit var processDeleteEjercicios: ProcessDelete
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class EjerciciosListaController : AppCompatActivity(), View.OnClickListener {
         ejercicioModelBD = EjercicioModelBD(context)
         tableLayout = findViewById(R.id.table)
         etId = findViewById(R.id.et_id)
+        processDeleteEjercicios = ProcessDeleteEjercicios(ejercicioModelBD)
 
         val tableDynamic = TableDynamic(tableLayout, context)
         tableDynamic.addHeader(header)
@@ -48,6 +52,7 @@ class EjerciciosListaController : AppCompatActivity(), View.OnClickListener {
 
         tableDynamic.backgroundHeader(resources.getColor(R.color.black))
         tableDynamic.textColorHeader(resources.getColor(R.color.white))
+
 
         findViewById<View>(R.id.btn_registrar_ejercicio).setOnClickListener(this)
         findViewById<View>(R.id.btn_modificar_ejercicio).setOnClickListener(this)
@@ -104,6 +109,8 @@ class EjerciciosListaController : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(this, "Ingrese un ID", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            R.id.btn_eliminar_ejercicio -> processDeleteEjercicios.generateProcessDelete(this, etId.text.toString())
         }
     }
 }

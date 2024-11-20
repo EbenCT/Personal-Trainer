@@ -12,6 +12,9 @@ import com.example.personaltrainer.R
 import com.example.personaltrainer.model.progreso.ProgresoModelBD
 import com.example.personaltrainer.database.DBHelper
 import com.example.personaltrainer.TableDynamic
+import com.example.personaltrainer.controller.template.ProcessDelete
+import com.example.personaltrainer.controller.template.ProcessDeleteEjercicios
+import com.example.personaltrainer.controller.template.ProcessDeleteProgresos
 
 class ProgresosListaController : AppCompatActivity(), View.OnClickListener {
 
@@ -22,6 +25,7 @@ class ProgresosListaController : AppCompatActivity(), View.OnClickListener {
     private val header = arrayOf("ID", "Fecha", "Peso", "Nivel", "Objetivo", "Observación")
     private val rows: ArrayList<Array<String>> = ArrayList()
     private var clienteId: Int = -1  // Para almacenar el ID del cliente
+    private lateinit var processDeleteProgresos: ProcessDelete
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,7 @@ class ProgresosListaController : AppCompatActivity(), View.OnClickListener {
         progresoModelBD = ProgresoModelBD(context) // Inicializar progresoModelBD con DBHelper
         tableLayout = findViewById(R.id.table)
         etId = findViewById(R.id.et_id)
+        processDeleteProgresos = ProcessDeleteProgresos(progresoModelBD)
 
         val tableDynamic = TableDynamic(tableLayout, context)
         tableDynamic.addHeader(header)
@@ -108,16 +113,7 @@ class ProgresosListaController : AppCompatActivity(), View.OnClickListener {
                 }
             }
 
-            R.id.btn_eliminar_progreso -> {
-                val idText = etId.text.toString()
-                if (idText.isNotEmpty()) {
-                    progresoModelBD.deleteProgreso(idText.toInt()) // Cambiar a progresoModelBD
-                    Toast.makeText(this, "Progreso eliminado", Toast.LENGTH_SHORT).show()
-                    recreate()
-                } else {
-                    Toast.makeText(this, "Ingrese un ID", Toast.LENGTH_SHORT).show()
-                }
-            }
+            R.id.btn_eliminar_progreso -> processDeleteProgresos.generateProcessDelete(this, etId.text.toString())
         }
     }
 }
